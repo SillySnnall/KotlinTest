@@ -35,6 +35,239 @@ class MainActivity : AppCompatActivity() {
 //        test12()
 //        test13()
 //        test14()
+//        test15()
+//        println(test16("222", 15, true))
+//        println(test17())
+//        println(test18(b = 110))
+//        println(test19(100,"qwe","trtytr","pppp"))
+//        println(test20(200, arrayOf("qwe","trtytr","pppp"), arrayOf("asd","xxxx","21321")))
+//        println(test21<String>(220, "qwe","4444","pppp", "asd","xxxx","21321"))
+//        test22()
+//        test23()
+//        test24()
+//        test25()
+//        test26()
+//        test27()
+//        test28()
+//        test29()
+//        test30()
+//        test31()
+        test32()
+    }
+
+    /**
+     * 单例
+     */
+    private fun test32() {
+        Single.name = "张三"
+        println(Single.name)
+    }
+
+    /**
+     * 模版类
+     */
+    private fun test31() {
+        var river = when (4) {
+        //模板类(泛型类)声明对象时，要在模板类的类名后面加上“<参数类型>”
+            0 -> River<Int>("小溪", 100)
+        //如果编译器根据输入参数就能知晓参数类型，也可直接省略“<参数类型>”
+            1 -> River("瀑布", 99.9f)
+        //当然保守起见，新手最好按规矩添加“<参数类型>”
+            2 -> River<Double>("山涧", 50.5)
+        //如果你已经是老手了，怎么方便怎么来，Kotlin的设计初衷就是偷懒
+            else -> River("大河", "一千")
+        }
+    }
+
+    /**
+     * 数据类(bean类)
+     */
+    private fun test30() {
+        val plant = Plant("张三", 13)
+        plant.toString()
+        val copy = plant.copy()// 复制对象
+    }
+
+    /**
+     * 密封类
+     */
+    private fun test29() {
+        var season = when (4) {
+            0 -> SeasonSealed.Spring("春天")
+            1 -> SeasonSealed.Summer("夏天")
+            2 -> SeasonSealed.Autumn("秋天")
+            else -> SeasonSealed.Winter("冬天")
+        }
+        //密封类是一种严格的枚举类，它的值是一个有限的集合。
+        //密封类确保条件分支覆盖了所有的枚举类型，因此不再需要else分支
+        val value = when (season) {
+            is SeasonSealed.Spring -> season.name
+            is SeasonSealed.Summer -> season.name
+            is SeasonSealed.Autumn -> season.name
+            is SeasonSealed.Winter -> season.name
+        }
+    }
+
+    /**
+     * 枚举类
+     */
+    private fun test28() {
+        SeasonType.AUTUMN
+        SeasonName.SUMMER
+        //枚举类的构造函数是给枚举类型使用的，外部不能直接调用枚举类的构造函数
+        //SeasonName("未知").name
+        when (4) {
+        //使用自定义属性seasonName表示更个性化的描述
+            SeasonName.SPRING.ordinal -> SeasonName.SPRING.seasonName
+            SeasonName.SUMMER.ordinal -> SeasonName.SUMMER.seasonName
+            SeasonName.AUTUMN.ordinal -> SeasonName.AUTUMN.seasonName
+            SeasonName.WINTER.ordinal -> SeasonName.WINTER.seasonName
+            else -> "未知"
+        }
+    }
+
+    /**
+     * 嵌套类,内部类
+     */
+    private fun test27() {
+        Tree.Flower("牡丹").getName()// 嵌套类
+        Tree("桃树").Fruit("桃花").getName()// 内部类
+    }
+
+    /**
+     * 静态变量,方法
+     */
+    private fun test26() {
+        Book.ABC
+        Book.qaz = "123"
+        Book.wsx(this)
+    }
+
+    /**
+     * 简化初始化成员变量
+     */
+    private fun test25() {
+        val book = Book("小说", 100)
+        book.qqq()
+        println(book.toString())
+    }
+
+    /**
+     * 二级构造
+     */
+    private fun test24() {
+        Animal(this)
+        Animal(this,123)
+        Animal()
+    }
+
+    /**
+     * 一级构造
+     */
+    private fun test23() {
+        Student(this,1).xxx()
+        Student(this,1,"123").xxx()
+    }
+
+    private fun test22() {
+        val arrayOf = arrayOf("xxxx", "4353", "999")
+        arrayOf.swap(0, 2)
+        var re = ""
+        for (item in arrayOf) {
+            re = "$re,$item"
+        }
+        println(re)
+    }
+
+
+    /**
+     * 扩展函数，给Array增加新的交换方法
+     */
+    fun <T> Array<T>.swap(pos1: Int, pos2: Int) {
+        val tmp = this[pos1] //this表示数组对象自身
+        this[pos1] = this[pos2]
+        this[pos2] = tmp
+    }
+
+    /**
+     * 泛型
+     */
+    private fun <T> test21(i: Int, vararg otherArray: T): String {
+        var re = "$i"
+        for (item in otherArray) {
+            re = "$re,$item"
+        }
+        return re
+    }
+
+    /**
+     * 数组可变参数
+     */
+    private fun test20(i: Int, vararg otherArray: Array<String>): String {
+        var re = "$i"
+        for (item in otherArray) {
+            for (it in item) {
+                re = "$re,$it"
+            }
+        }
+        return re
+    }
+
+    /**
+     * 可变参数
+     */
+    private fun test19(a: Int, vararg otherArray: String): String {
+        var re = "$a"
+        for (item in otherArray) {
+            re = "$re,$item"
+        }
+        return re
+    }
+
+    /**
+     * 指定修改参数值
+     */
+    private fun test18(a: String = "qqq", b: Int = 12, c: Boolean = true): String {
+        return "$a$b$c"
+    }
+
+    /**
+     * 参数默认值
+     */
+    private fun test17(a: String = "qqq", b: Int = 12, c: Boolean = true): String {
+        return "$a$b$c"
+    }
+
+    /**
+     * 有参数，有返回值
+     */
+    private fun test16(a: String, b: Int, c: Boolean): String {
+        return a + b + c
+    }
+
+    /**
+     * 变量空值处理
+     */
+    private fun test15() {
+        /**
+         * isNullOrEmpty : 为空指针或者字串长度为0时返回true，非空串与可空串均可调用。
+         * isNullOrBlank : 为空指针或者字串长度为0或者全为空格时返回true，非空串与可空串均可调用。
+         * isEmpty : 字串长度为0时返回true，只有非空串可调用。
+         * isBlank : 字串长度为0或者全为空格时返回true，只有非空串可调用。
+         * isNotEmpty : 字串长度大于0时返回true，只有非空串可调用。
+         * isNotBlank : 字串长度大于0且不是全空格串时返回true，只有非空串可调用。
+         */
+
+        // 声明对象实例时，在类型名称后面加问号，表示该对象可以为空
+        var nullStr: String? = null
+        var nullStr1: String = ""
+        // 调用对象方法时，在实例名称后面加问号，表示一旦实例为空就返回null
+        nullStr?.isEmpty()
+        nullStr.isNullOrEmpty()
+        //  新引入运算符“?:”，一旦实例为空就返回该运算符右边的表达式
+        nullStr ?: -1
+        // 新引入运算符“!!”，通知编译器不做非空校验，运行时一旦发现实例为空就扔出异常
+        nullStr!!
     }
 
     /**
@@ -42,8 +275,8 @@ class MainActivity : AppCompatActivity() {
      */
     private fun test14() {
         var i = 0
-        xxxx@while (i == 100){
-            while (i==50){
+        xxxx@ while (i == 100) {
+            while (i == 50) {
                 i++
                 break@xxxx
             }
@@ -63,11 +296,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 左闭右开区间，合法值包括11，但不包括66  11-66之间
-        for (i in 11 until 66) {  }
+        for (i in 11 until 66) {
+        }
         // 每次默认递增1，这里改为每次递增4     23-89之间
-        for (i in 23..89 step 4) {  }
+        for (i in 23..89 step 4) {
+        }
         // for循环默认递增，这里使用downTo表示递减 50-7之间
-        for (i in 50 downTo 7) {  }
+        for (i in 50 downTo 7) {
+        }
     }
 
     /**
@@ -75,7 +311,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun test12() {
         var count = 0
-        count = (count+1) % 3
+        count = (count + 1) % 3
         val countType = when (count) {
             0 -> count.toLong()
             1 -> count.toDouble()
@@ -111,7 +347,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         textview.text = when (count) {
-            1,2,3,4,8 -> "啊哈哈啊哈"
+            1, 2, 3, 4, 8 -> "啊哈哈啊哈"
             in 2..10 -> "嘻嘻嘻"// 在2到10的范围内
             !in 5..60 -> "12321321"// 不在5到60的范围内
             else -> "嘻嘻嘻嘻"
